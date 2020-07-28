@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="static/semantic/semantic.min.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="static/semantic/semantic.min.js"></script>
+  </head>
+
+  <body>
+    <div class="ui grid" style="height: 100px;"></div>
+    <div class="ui grid">
+      <div class="three wide column"></div>
+      <div class="ten wide column">
+        <div class="ui container">
+          <div class="ui search">
+            <form method="GET" action="">
+              <input
+                class="prompt"
+                type="text"
+                name="query"
+                placeholder=" Search for..."
+              />
+              {% render_form form %}
+              <button class="mini ui button" style="margin-left: 5x;">
+                Search
+              </button>
+            </form>
+            <div class="results"></div>
+          </div>
+        </div>
+      </div>
+      <div class="three wide column"></div>
+    </div>
+
+    <div class="ui container">
+      {% for post in post_data %}
+      <img
+        class="ui medium rounded image"
+        src="static/pictures/{{ post.image }}.jpg"
+      />
+      {% endfor %}
+    </div>
+    <div class="ui container">
+      <table class="ui very basic table">
+        <thead>
+          <tr>
+            <th>Growth_type</th>
+            <th>Cultivar</th>
+            <th>Common_N</th>
+            <th>Scientific_N</th>
+            <th>Wiki</th>
+            <th>Genbank</th>
+            <th>link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for post in post_data %}
+          <tr>
+            <td>{{ post.Growth_type }}</td>
+            <td>{{ post.Cultivar }}</td>
+            <td>{{ post.Common_N }}</td>
+            <td>{{ post.Scientific_N }}</td>
+            <td><a href="{{ post.Wiki }}">{{ post.Wiki }}</a></td>
+            <td>{{ post.Genbank }}</td>
+            <td>{{ post.link }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!--javascript -->
+    <script type="text/javascript">
+
+      var content = [
+      	{% for x in Posts %}
+      	{
+      		title: '{{x.Common_N}}',
+      		description: '{{x.Scientific_N}}'
+      	},
+      	{% endfor %}
+
+      ];
+
+      	$('.ui.search').search({
+      		source: content,
+      		searchFullText: false
+      	});
+    </script>
+  </body>
+</html>
